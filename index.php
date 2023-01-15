@@ -25,10 +25,20 @@ if (isset($_POST['submit'])) {
     $cek = mysqli_num_rows($sql);
     // $result = mysqli_query($conn, $sql);
     if ($cek > 0) {
-        // $row = mysqli_fetch_assoc($result);
-        $_SESSION['login'] = true;
-        header("Location: dashboard.php");
-        exit;
+        $row = mysqli_fetch_assoc($sql);
+
+        if($row['level'] == "admin"){
+            $_SESSION['login'] = true;
+            header("Location: dashboard.php");
+            exit;
+
+        }else if($row['level'] == 'user'){
+            $_SESSION['user'] = true;
+            header("Location: tabel_surat.php");
+            exit;
+        } else {
+            echo "<script>alert('username atau password Anda salah. Silahkan coba lagi!')</script>";
+        }
     } else {
         echo "<script>alert('username atau password Anda salah. Silahkan coba lagi!')</script>";
     }
